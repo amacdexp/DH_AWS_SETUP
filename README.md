@@ -1,5 +1,5 @@
 # SAP Data Hub installation Steps on AWS
-Example instllation steps for install DG 2.4 on AWS
+Example instllation steps for install Data Hub 2.4 on AWS
 
 
 OVerview
