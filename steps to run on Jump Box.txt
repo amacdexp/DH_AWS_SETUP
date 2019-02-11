@@ -1,6 +1,12 @@
 ## Refer to https://help.sap.com/viewer/e66c399612e84a83a8abe97c0eeb443a/2.4.latest/en-US/40cc1c6cd72546378182f0de584ced05.html
 ## for more info
 
+#### IMPORTANT
+#### Jumpbox needs 100GB of storage for downloads and install process
+#### this examples used AWS prepared instances e.g. 'Deep Learning AMI (Amazon Linux) Version 21.0 - ami-055ab192b68ca4d2f'
+
+
+
 #Prepare Python Requirements
 sudo yum install python-yaml
 python --version   ##needs 2.7
@@ -59,10 +65,119 @@ helm init --service-account tiller
 helm ls  ##gave errors with 'default' 
 
 
-#Download  installation files from  SAP DATA HUB/ SAP DATA HUB 2    https://launchpad.support.sap.com/#/softwarecenter
-# https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=NEXT&HEADER=Y&FUNCTIONBAR=Y&EVENT=TREE&NE=NAVIGATE&ENR=73555000100800000791&V=MAINT&TA=ACTUAL/SAP%20DATA%20HUB
+##Create storage class
+#https://docs.aws.amazon.com/eks/latest/userguide/storage-classes.html
+vi kubectl create -f gp2-storage-class.yaml
+kubectl create -f gp2-storage-class.yaml
+kubectl get storageclass
 
 
 
-
+#Check AWS Kubernetes Login
 kubectl get service kubernetes
+aws ecr get-login --no-include-email 
+
+#Download  installation files from  SAP DATA HUB/ SAP DATA HUB 2    https://launchpad.support.sap.com/#/softwarecenter
+#https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=NEXT&HEADER=Y&FUNCTIONBAR=Y&EVENT=TREE&NE=NAVIGATE&ENR=73555000100800000791&V=MAINT&TA=ACTUAL/SAP%20DATA%20HUB
+
+mkdir DH
+##Place ZIP files here
+## if you've downloded them to an S3 bucket then can use following to copy
+aws s3 sync s3://<DOWNLOADBUCKET>/ ./DH
+
+cd DH
+unzip DHSPARKINT04_0-70003482.ZIP
+unzip DHFOUNDATION04_0-80004015.ZIP
+rm *.ZIP
+
+
+###  MAIN INSTLLATION STEPS Once jump boxe prepared
+# Set environemtn variables
+alias python=python27
+export NAMESPACE=datahub
+export DOCKER_REGISTRY=<AWS EKR>   # e.g. XXXXXXXXXXXX.dkr.ecr.eu-central-1.amazonaws.com
+$(aws ecr get-login --region eu-central-1 --no-include-email)
+
+cd /home/ec2-user/DH/SAPDataHub-2.4.63-Foundation
+
+./install.sh \
+       -e=vora-dqp.components.txCoordinator.serviceType=AWSInternalLoadBalancer \
+       -e=vora-dqp.components.txCoordinator.nodePort=30343 \
+       --cert-domain=*.<YOUR DOMAIN> \
+	   -e=vora-cluster.components.dlog.replicationFactor="1" -e=vora-cluster.components.dlog.standbyFactor="0"
+     
+
+
+
+####### Typical  Installation question and answers below
+#Use checkpoint bucket --- used s3
+#S3  url    -> https://s3.eu-central-1.amazonaws.com
+#S3 region  -> eu-central-1
+#S3 bucket  -> <S3 checkpoint bucket and folder>  e.g. <bucketname>/clustercheckpoint
+
+#No SSL certificate has been provided via the --provide-certs parameter. The SAP Data Hub installer will generate a self-signed certificate for TLS and JWT.
+#Please enter the SAN (Subject Alternative Name) for the certificate, which must match the fully qualified domain name (FQDN) of the Kubernetes node to be accessed externally:
+## <your FQDN>    e.g. mytest.dh.com
+
+#password of system Datahub24!
+## user dhadmin
+#Do you want to configure security contexts for Hadoop/Kerberized Hadoop? (yes/no) no
+
+
+###################################
+##  ALL GOING WELL DH SHOULD BE INSTALLED WITH NO ERRORS
+#################################
+
+#To expose DH URLS/PORTS to public then
+#https://help.sap.com/viewer/e66c399612e84a83a8abe97c0eeb443a/2.4.latest/en-US/f7ad699feb5a4c2b9739a69cd597956c.html
+
+##helm install stable/nginx-ingress --namespace kube-system
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=*.dh.com"
+kubectl -n $NAMESPACE create secret tls vsystem-tls-certs --key /tmp/tls.key --cert /tmp/tls.crt
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/aws/service-l4.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/aws/patch-configmap-l4.yaml
+
+vi ingress.yaml
+			apiVersion: extensions/v1beta1
+			kind: Ingress
+			metadata:
+			  annotations:
+				ingress.kubernetes.io/force-ssl-redirect: "true"
+				ingress.kubernetes.io/proxy-body-size: 500m
+				ingress.kubernetes.io/secure-backends: "true"
+				kubernetes.io/ingress.class: nginx
+				kubernetes.io/tls-acme: "true"
+				nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+				nginx.ingress.kubernetes.io/proxy-body-size: 500m
+				nginx.ingress.kubernetes.io/proxy-buffer-size: 16k
+				nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+				nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+				nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+			  name: vsystem
+			spec:
+			  rules:
+			  - host: <YOUR HOST NAME>   e.g. "vsystem.mytest.dh.com"
+				http:
+				  paths:
+				  - backend:
+					  serviceName: vsystem
+					  servicePort: 8797
+					path: /
+			  tls:
+			  - hosts:
+				- <YOUR HOSTS NAME> "*.dh.com"
+				secretName: vsystem-tls-certs
+
+
+# 
+kubectl -n $NAMESPACE delete ingress vsystem
+kubectl -n $NAMESPACE create -f ingress.yaml
+kubectl -n $NAMESPACE describe ingress
+
+
+
+# Assuming instsllation successful some come commands include
+kubectl get pvc -n datahub
+kubectl get deployments -n datahub
+kubectl get pods  -n datahub
