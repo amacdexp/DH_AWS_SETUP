@@ -1,0 +1,68 @@
+## Refer to https://help.sap.com/viewer/e66c399612e84a83a8abe97c0eeb443a/2.4.latest/en-US/40cc1c6cd72546378182f0de584ced05.html
+## for more info
+
+#Prepare Python Requirements
+sudo yum install python-yaml
+python --version   ##needs 2.7
+alias python=python27    ## if python 2.7 present
+
+#Prepare Kubectl Requirements
+curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mkdir $HOME/bin
+mv ./kubectl $HOME/bin/kubectl
+kubectl version --short --client
+
+#Provide necessary IAM authentication
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+chmod +x ./kubectlaws-iam-authenticator
+mv ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator
+
+
+###
+###  Log out / Login may be required  to check IAM
+###
+aws-iam-authenticator help
+
+#Install helm
+alias python=python27
+curl -o   helm-v2.9.1-linux-amd64.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz
+tar xzvf helm-v2.9.1-linux-amd64.tar.gz
+mv linux-amd64/helm $HOME/bin/helm
+rm helm-v2.9.1-linux-amd64.tar.gz
+rm -r  linux-amd64
+helm version
+
+#Check / congigure AWS
+aws --version
+aws configure   # using iD, Shared secret & region 
+
+
+#Update and link eks with cluster defined  in pre-req
+aws eks update-kubeconfig --name <CLUSTERNAME>
+curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/aws-auth-cm.yaml
+
+## Update aws-auth-cm.yaml  to replace  values with those defined in
+#    - rolearn: <ARN of instance role (not instance profile)>
+vi aws-auth-cm.yaml
+
+kubectl apply -f aws-auth-cm.yaml
+
+kubectl get nodes --watch
+
+
+#Setup Tiller
+kubectl create serviceaccount --namespace kube-system tiller
+#kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:default    ### help says do this for AWS but gave errors
+kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller
+helm ls  ##gave errors with 'default' 
+
+
+#Download  installation files from  SAP DATA HUB/ SAP DATA HUB 2    https://launchpad.support.sap.com/#/softwarecenter
+# https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=NEXT&HEADER=Y&FUNCTIONBAR=Y&EVENT=TREE&NE=NAVIGATE&ENR=73555000100800000791&V=MAINT&TA=ACTUAL/SAP%20DATA%20HUB
+
+
+
+
+kubectl get service kubernetes
