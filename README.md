@@ -6,8 +6,8 @@ OVerview
 ---------
 
 0) Create IAM Role
-1) Create Cluster in AWS EKS
-2) Get AWS EKR
+1) Create Cluster in AWS EKS (AWS Kubernetes Cluster)
+2) Get AWS ECR URL   (AWS Docker REgistry)
 3) Use AWS cloud formation to create 3 node R5.xlarge  cluster 
 3) Create Jumpboxwith and follow install steps  (e.g. micro with 
 
