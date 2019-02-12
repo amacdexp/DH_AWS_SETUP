@@ -22,7 +22,7 @@ For example create 'eksrole'  with following policies assigned :
 *  AmazonEKSServicePolicy
 ```
 2. Create Cluster in AWS EKS (AWS Kubernetes Cluster)
-3. Get AWS ECR URL   (AWS Docker REgistry) [refer to umpbox steps]
+3. Get AWS ECR URL   (AWS Docker REgistry)   [refer to jumpbox steps]
 4. Use AWS cloud formation to create 3 node R5.xlarge  cluster 
 5. Create Jumpboxwith and follow install steps ( see 'steps to run on Jump Box.txt')
 
