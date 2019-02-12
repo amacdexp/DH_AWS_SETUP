@@ -2,6 +2,7 @@
 Example installation steps for Data Hub 2.4 on AWS
 
 For official links to install documentation see:
+
 [SAP NOTE 2686169 - Prerequisites for installing SAP Data Hub 2](https://launchpad.support.sap.com/#/notes/2686169)
 [Installation Guide for SAP Data Hub](https://help.sap.com/viewer/e66c399612e84a83a8abe97c0eeb443a/2.4.latest/en-US/9f866d8ef9a94c30947f12e73eaf0dd9.html)  - Refer to AWS EKS Sections where applicable
 
