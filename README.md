@@ -35,14 +35,14 @@ For example create 'eksrole'  with following policies assigned :
 [AWS Kubernetes Cluster](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) 
     
 NOTE: AWS Charge $0.20 per hour (~$144 p/mth) for each Amazon EKS cluster created
-
+```
 Create Cluster with following settings:
 * Kubernetes version  1.10  (per DH guidelines at time this created)
 * Role name      <see earlier step>
 * VPCID          <see earlier step>
 * Subnet         <see earlier step>
 * Security Group <see earlier step>
-    
+``` 
     
 ## 3. Get AWS ECR URL   
 
@@ -52,7 +52,7 @@ refer to jumpbox steps
 
 ## 4. Use AWS cloud formation to create stack 
 [AWS Kubernetes Cluster](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) 
-
+```
 Create Stack with following:
 * Template -> S3 Template -> https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-nodegroup.yaml
 * Stackname                             e.g. k8sworkernodes (note in EC2  it will be prefixed with cluster name)
@@ -62,7 +62,7 @@ Create Stack with following:
 * KeyName                               <See secuirty group from earlier steps>
 * VPCID                                 <see earlier step>
 * Subnet                                <see earlier step>
-
+```
     
 Action -> Update stack -> Current template e.g. to reduce nodes and reduce instance type when not in use
 
