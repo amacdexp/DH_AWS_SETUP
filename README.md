@@ -13,15 +13,15 @@ Overview
 PREREQ : Assumes AWS account with basic knowledge of AWS services, principals and setup steps
 
 
-0) Create IAM Role
+1.. Create IAM Role
     e.g. eksrole  with following assigned policies
-        *  AmazonEKSClusterPolicy
-        *  AmazonEC2ContainerRegistryFullAccess
-        *  AmazonEC2ContainerRegistryPowerUser
-        *  AmazonEKSServicePolicy
-1) Create Cluster in AWS EKS (AWS Kubernetes Cluster)
-2) Get AWS ECR URL   (AWS Docker REgistry) [refer to umpbox steps]
-3) Use AWS cloud formation to create 3 node R5.xlarge  cluster 
-3) Create Jumpboxwith and follow install steps ( see 'steps to run on Jump Box.txt')
+*  AmazonEKSClusterPolicy
+*  AmazonEC2ContainerRegistryFullAccess
+*  AmazonEC2ContainerRegistryPowerUser
+*  AmazonEKSServicePolicy
+2.. Create Cluster in AWS EKS (AWS Kubernetes Cluster)
+3.. Get AWS ECR URL   (AWS Docker REgistry) [refer to umpbox steps]
+4.. Use AWS cloud formation to create 3 node R5.xlarge  cluster 
+5.. Create Jumpboxwith and follow install steps ( see 'steps to run on Jump Box.txt')
     NOTE: Used T3.Micro Instance type with minimum 100Gb [Deep Learning AMI (Amazon Linux) Version 21.0 - ami-055ab192b68ca4d2f]
 
