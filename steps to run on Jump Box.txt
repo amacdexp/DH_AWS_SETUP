@@ -2,7 +2,7 @@
 ## for more info
 
 #### IMPORTANT
-#### Jumpbox needs 100GB of storage for downloads and install process
+#### Jumpbox needs 100GB of storage for downloads and install process.  A T3.Micro instance type used in this example
 #### this examples used AWS prepared instances e.g. 'Deep Learning AMI (Amazon Linux) Version 21.0 - ami-055ab192b68ca4d2f'
 
 
