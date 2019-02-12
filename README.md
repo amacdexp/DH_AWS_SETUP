@@ -26,7 +26,7 @@ For example create 'eksrole'  with following policies assigned :
 2. Create Cluster in AWS EKS [AWS Kubernetes Cluster](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) 
     
     NOTE: AWS Charge $0.20 per hour (~$144 p/mth) for each Amazon EKS cluster created
-3. Get AWS ECR URL   (AWS Docker Registry 500Mb free  0.10 p/gb / mth)   [refer to jumpbox steps]  
+3. Get AWS ECR URL   (AWS Docker Registry 500Mb free  0.10 gb/mth)   [refer to jumpbox steps]  
 4. Use AWS cloud formation to create 3 node R5.xlarge  cluster 
 5. Create Jumpboxwith and follow install steps ( see [steps to run on Jump Box.txt](https://github.com/amacdonaldsap/DH_AWS_SETUP/blob/master/steps%20to%20run%20on%20Jump%20Box.txt) )
 
