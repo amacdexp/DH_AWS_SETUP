@@ -17,8 +17,8 @@ PREREQ : Assumes AWS account with basic knowledge of AWS services, principals an
          AmazonEC2ContainerRegistryPowerUser
          AmazonEKSServicePolicy
 1) Create Cluster in AWS EKS (AWS Kubernetes Cluster)
-2) Get AWS ECR URL   (AWS Docker REgistry)
+2) Get AWS ECR URL   (AWS Docker REgistry) [refer to umpbox steps]
 3) Use AWS cloud formation to create 3 node R5.xlarge  cluster 
 3) Create Jumpboxwith and follow install steps ( see 'steps to run on Jump Box.txt')
-    NOTE: Used Micro Instance type with minimum 100Gb [Deep Learning AMI (Amazon Linux) Version 21.0 - ami-055ab192b68ca4d2f]
+    NOTE: Used T3.Micro Instance type with minimum 100Gb [Deep Learning AMI (Amazon Linux) Version 21.0 - ami-055ab192b68ca4d2f]
 
