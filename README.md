@@ -12,7 +12,7 @@ Overview
 ---------
 PREREQ : Assumes AWS account with basic knowledge of AWS services, principals and setup steps
 
-
+0. Create an S3 Bucket for DH Snapshots (e.g. https://s3.console.aws.amazon.com/s3/buckets/<BUKETNAME>/<CLUSTER NAME FOLDER>
 1. Create IAM Role
 ```
 For example create 'eksrole'  with following policies assigned :
