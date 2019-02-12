@@ -24,7 +24,7 @@ For example create 'eksrole'  with following policies assigned :
 2. Create Cluster in AWS EKS (AWS Kubernetes Cluster)
 3. Get AWS ECR URL   (AWS Docker REgistry)   [refer to jumpbox steps]
 4. Use AWS cloud formation to create 3 node R5.xlarge  cluster 
-5. Create Jumpboxwith and follow install steps ( see [steps to run on Jump Box.txt] (https://github.com/amacdonaldsap/DH_AWS_SETUP/blob/master/steps%20to%20run%20on%20Jump%20Box.txt))
+5. Create Jumpboxwith and follow install steps ( see [steps to run on Jump Box.txt](https://github.com/amacdonaldsap/DH_AWS_SETUP/blob/master/steps%20to%20run%20on%20Jump%20Box.txt) )
 
     NOTE: Used T3.Micro Instance type with minimum 100Gb [Deep Learning AMI (Amazon Linux) Version 21.0 - ami-055ab192b68ca4d2f]
 
