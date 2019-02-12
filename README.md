@@ -15,7 +15,7 @@ PREREQ : Assumes AWS account with basic knowledge of AWS services, principals an
 
 1. Create IAM Role
 ```
-    e.g. eksrole  with following assigned policies:
+For example create 'eksrole'  with following policies assigned :
 *  AmazonEKSClusterPolicy
 *  AmazonEC2ContainerRegistryFullAccess
 *  AmazonEC2ContainerRegistryPowerUser
