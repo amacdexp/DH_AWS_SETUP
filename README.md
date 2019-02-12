@@ -27,20 +27,25 @@ For example create 'eksrole'  with following policies assigned :
     
     NOTE: AWS Charge $0.20 per hour (~$144 p/mth) for each Amazon EKS cluster created
 * Kubernetes version  1.10  (per DH guidelines at time this created)
-* Role name  <see earlier step>
-* VPC        <see earlier step>
-* Subnet     <see earlier step>
+* Role name      <see earlier step>
+* VPCID          <see earlier step>
+* Subnet         <see earlier step>
 * Security Group <see earlier step>
     
     
 3. Get AWS ECR URL   (AWS Docker Registry 500Mb free  0.10 gb/mth)   [refer to jumpbox steps]  
-4. Use AWS cloud formation  [AWS Kubernetes Cluster](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) 
-* Template -> S3 Template -> https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-vpc-sample.yaml
-* Stackname   e.g. k8sworkernodes (note in EC2  it will be prefixed with cluster name)
+4. Use AWS cloud formation to create stack [AWS Kubernetes Cluster](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) 
+* Template -> S3 Template -> https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-nodegroup.yaml
+* Stackname                             e.g. k8sworkernodes (note in EC2  it will be prefixed with cluster name)
+* Clustername                           <see earlier step>
+* NodeAutoScalingGroupDesiredCapacity   3          (or   1 when not in use)
+* NodeInstanceType                      R5.xlarge  (or   T3.nano when not in use)
+* KeyName                               <See secuirty group from earlier steps>
+* VPCID                                 <see earlier step>
+* Subnet                                <see earlier step>
 
-Update stack e.g. to reduce nodes and reduce instance type when not in use
-* Nodes nodes   3     (or   1 when not in use)
-* Instance type R5.xlarge  (or   T3.nano when not in use)
+    
+Action -> Update stack -> Current template e.g. to reduce nodes and reduce instance type when not in use
 
 5. Create Jumpboxwith and follow install steps ( see [steps to run on Jump Box.txt](https://github.com/amacdonaldsap/DH_AWS_SETUP/blob/master/steps%20to%20run%20on%20Jump%20Box.txt) )
 
