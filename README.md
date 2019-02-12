@@ -20,7 +20,7 @@ PREREQ : Assumes AWS account with basic knowledge of AWS services, principals an
 For example create 'eksrole'  with following policies assigned :
 *  AmazonEKSClusterPolicy
 *  AmazonEC2ContainerRegistryFullAccess
-*  AmazonEC2ContainerRegistryPowerUser
+*  AmazonEC2ContainerRegistryPowerUser  (Need to double check if this required)
 *  AmazonEKSServicePolicy
 ```
 2. Create Cluster in AWS EKS [AWS Kubernetes Cluster](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) 
