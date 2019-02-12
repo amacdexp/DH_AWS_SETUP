@@ -15,10 +15,10 @@ PREREQ : Assumes AWS account with basic knowledge of AWS services, principals an
 
 0) Create IAM Role
     e.g. eksrole  with following assigned policies
-         AmazonEKSClusterPolicy
-         AmazonEC2ContainerRegistryFullAccess
-         AmazonEC2ContainerRegistryPowerUser
-         AmazonEKSServicePolicy
+        *  AmazonEKSClusterPolicy
+        *  AmazonEC2ContainerRegistryFullAccess
+        *  AmazonEC2ContainerRegistryPowerUser
+        *  AmazonEKSServicePolicy
 1) Create Cluster in AWS EKS (AWS Kubernetes Cluster)
 2) Get AWS ECR URL   (AWS Docker REgistry) [refer to umpbox steps]
 3) Use AWS cloud formation to create 3 node R5.xlarge  cluster 
