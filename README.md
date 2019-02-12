@@ -1,5 +1,5 @@
 # SAP Data Hub installation Steps on AWS
-Example instllation steps for install Data Hub 2.4 on AWS
+Example installation steps for Data Hub 2.4 on AWS
 
 For official links to install documentation see:
 https://launchpad.support.sap.com/#/notes/2686169
